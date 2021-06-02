@@ -38,6 +38,13 @@ public class EventsFragment extends Fragment {
         btn_agregar = root.findViewById(R.id.btn_agregar);
         btn_cancelar = root.findViewById(R.id.btn_cancelar);
 
+        btn_agregar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
         return root;
 
     }//onCreate

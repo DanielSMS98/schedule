@@ -22,15 +22,16 @@
             android:layout_height="wrap_content"
             android:hint="Nombre de evento"/>
         <EditText
-            android:id="@+id/edt_descripcion"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Descripcion del evento"/>
-        <EditText
             android:id="@+id/edt_Fecha"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Fecha"/>
+
+        <EditText
+            android:id="@+id/edt_descripcion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Descripcion del evento"/>
 
             <Button
                 android:id="@+id/btn_agregar"
