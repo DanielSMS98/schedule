@@ -1,8 +1,11 @@
 package com.example.schedule.ui.events;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,16 +17,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.schedule.MainActivity;
 import com.example.schedule.R;
+import com.example.schedule.db.DbHelper;
+import com.example.schedule.db.Events_log;
 import com.example.schedule.ui.calendar.CalendarViewModel;
+import com.example.schedule.ui.home.HomeFragment;
 
 public class EventsFragment extends Fragment {
 
     private EventsViewModel eventsViewModel;
     private EditText edt_nombre,edt_descripcion,edt_fecha;
     private Button btn_agregar,btn_cancelar;
+    private GridView gridView;
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -38,12 +49,43 @@ public class EventsFragment extends Fragment {
         btn_agregar = root.findViewById(R.id.btn_agregar);
         btn_cancelar = root.findViewById(R.id.btn_cancelar);
 
+
+        Context context = getActivity();
+        DbHelper db = new DbHelper(context);
+
         btn_agregar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(!edt_nombre.getText().toString().isEmpty() &&
+                        !edt_fecha.getText().toString().isEmpty()){
+
+                    Events_log evento = new Events_log();
+                    int i = db.getEventsCount();
+                    evento.setId(i);
+                    evento.setEvento(edt_nombre.getText().toString());
+                    evento.setFecha(edt_fecha.getText().toString());
+                    evento.setDescripcion(edt_descripcion.getText().toString());
+                    db.addEvents(evento);
+                    Toast.makeText(getActivity(),"Evento creado",Toast.LENGTH_LONG).show();
+
+                }//if
+                else {
+                    Toast.makeText(getActivity(),"Introduce los datos",Toast.LENGTH_LONG).show();
+                }//else
 
             }
+        });//Boton de agregar
+
+        /** Revision para su correcto funcionaiento
+        btn_cancelar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Regresar a fragment home o resumen
+                Intent intent = new Intent(getActivity(), HomeFragment.class);
+                startActivity(intent);
+            }
         });
+         */
 
         return root;
 

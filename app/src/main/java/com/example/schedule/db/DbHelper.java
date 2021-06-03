@@ -8,6 +8,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
+import com.example.schedule.ui.events.EventsFragment;
+import com.example.schedule.ui.home.HomeFragment;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +29,8 @@ public class DbHelper extends SQLiteOpenHelper {
     public DbHelper(@Nullable Context context) {
         super(context, DATABASE_NOMBRE, null, DATABASE_VERSION);
     }//Constructor
+
+
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -62,7 +67,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.close();
     }//addEvents
 
-   /** //obtener un evento
+   //obtener un evento
     public Events_log getEvents(int id){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABLE_EVENTS,
@@ -81,14 +86,13 @@ public class DbHelper extends SQLiteOpenHelper {
         //regresar contacto
         return eventsLog;
     } //obtener un contacto
-    */
 
 
-   //obtener todos los contactos
+
+   //obtener todos los eventos
    public List<Events_log> getAllEvents(){
        //lista vacia donde se agregaran los eventos
        ArrayList<Events_log> allEvents = new ArrayList<>();
-
        //Consulta_todo_lo_que_tiene_la_tabla
        String selectQuery = "SELECT * FROM " + TABLE_EVENTS;
        SQLiteDatabase db = this.getWritableDatabase();
@@ -100,7 +104,7 @@ public class DbHelper extends SQLiteOpenHelper {
                Events_log eventsLog = new Events_log();
                eventsLog.setId(Integer.parseInt(cursor.getString(0)));
                eventsLog.setEvento(cursor.getString(1));
-               eventsLog.setFecha(cursor.getColumnName(2));
+               eventsLog.setFecha(cursor.getString(2));
                eventsLog.setDescripcion(cursor.getString(3));
 
                allEvents.add(eventsLog);
@@ -112,7 +116,7 @@ public class DbHelper extends SQLiteOpenHelper {
    }//obtener todos los contactos
 
 
-    /**
+
     //actualizar la base de datos
     public void updateEvents(int id, String events, String date, String description){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -124,9 +128,9 @@ public class DbHelper extends SQLiteOpenHelper {
         //actualizar fila
         db.update(TABLE_EVENTS, values, KEY_ID + " = ?", new String[] {String.valueOf(id)});
     }//actualizar la base de datos
-     */
 
-    /**
+
+
     //borrar evento de la base de datos
     public void deleteEvents(Events_log eventsLog){
         SQLiteDatabase db =this.getWritableDatabase();
@@ -135,7 +139,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 new String[] { String.valueOf(eventsLog.getId())});
         db.close();
     }//borrar contacto de la base de datos
-    */
+
 
     //Conteo de contactos
     public int getEventsCount(){

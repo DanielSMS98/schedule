@@ -18,11 +18,12 @@
             android:text="Lista de eventos"
             android:textSize="28dp"
             android:textAlignment="center"/>
-        <ListView
+        <GridView
             android:id="@+id/list_events"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-        </ListView>
+        </GridView>
+
     </LinearLayout>
 
 
