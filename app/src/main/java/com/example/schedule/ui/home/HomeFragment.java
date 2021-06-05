@@ -10,6 +10,11 @@ import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -41,6 +46,8 @@ public class HomeFragment extends Fragment {
 
         Context context = getActivity();
         DbHelper db = new DbHelper(context);
+        gridView.setAdapter(null);
+        list_ev.clear();
 
         //Mostrar todo los eventos registrados
         List<Events_log> events_logList = db.getAllEvents();
@@ -52,8 +59,6 @@ public class HomeFragment extends Fragment {
         ArrayAdapter adapter;
         adapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, list_ev);
         gridView.setAdapter(adapter);
-
-
 
         return root;
     }//onCreateView

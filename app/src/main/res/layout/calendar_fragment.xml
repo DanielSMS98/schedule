@@ -6,26 +6,33 @@
     tools:context=".ui.calendar.CalendarFragment">
 
     <LinearLayout
+        android:id="@+id/frame2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
         <CalendarView
             android:id="@+id/cal_events"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-        </CalendarView>
-        <TextView
-            android:id="@+id/text_calendar"
+            android:layout_height="305dp" />
+
+        <LinearLayout
+            android:id="@+id/frame_calendar_down"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Lista de eventos"
-            android:textSize="28dp"/>
-        <ListView
-            android:id="@+id/list_events"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        </ListView>
-
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/text_calendar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="28dp"
+                android:textAlignment="center"/>
+            <GridView
+                android:id="@+id/list_events"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
     </LinearLayout>
 
 

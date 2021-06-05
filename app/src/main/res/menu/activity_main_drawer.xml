@@ -14,10 +14,5 @@
             android:icon="@drawable/ic_menu_calendar"
             android:title="@string/menu_calendar"/>
 
-        <item
-            android:id="@+id/nav_events"
-            android:icon="@drawable/ic_menu_events"
-            android:title="@string/menu_events" />
-
     </group>
 </menu>
