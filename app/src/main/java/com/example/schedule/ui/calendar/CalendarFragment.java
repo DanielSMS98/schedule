@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CalendarView;
 import android.widget.FrameLayout;
@@ -41,8 +42,8 @@ public class CalendarFragment extends Fragment {
     private GridView mList_event;
     private CalendarViewModel calendarViewModel;
     private ArrayList<String> list_ev = new ArrayList<String>();
+    private ArrayList<Events_log> list = new ArrayList<Events_log>();
     private int frag;
-
 
 
     @Override
@@ -85,6 +86,8 @@ public class CalendarFragment extends Fragment {
                                     //Intent intent = new Intent(getActivity(),  EventsFragment.class);
                                     textView.setText("");
                                     mList_event.setAdapter(null);
+                                    list_ev.clear();
+                                    list.clear();
 
                                     Bundle bundle = new Bundle();
                                     bundle.putInt("dia",dia);
@@ -121,11 +124,13 @@ public class CalendarFragment extends Fragment {
                                     DbHelper db = new DbHelper(context);
 
 
-                                    //Mostrar todo los eventos registrados
+                                    //Mostrar todos los eventos registrados
                                     List<Events_log> events_logList = db.getAllEvents();
                                     for (Events_log ec : events_logList) {
                                         if (ec.getFecha().equals(textComp)) {
-                                            String eve = ec.getEvento() + "\n" + ec.getFecha();
+                                            String eve = "\nEvento: "+ec.getEvento()+
+                                                    "\nFecha: "+ec.getFecha();
+                                            list.add(ec);
                                             list_ev.add(eve);
                                         }//if
                                     }//for
@@ -138,6 +143,55 @@ public class CalendarFragment extends Fragment {
                                     else{
                                         Toast.makeText(getActivity(),"No hay eventos en la fecha",Toast.LENGTH_LONG).show();
                                     }//else
+
+                                    mList_event = root.findViewById(R.id.list_events);
+                                    mList_event.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                        @Override
+                                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                            AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+                                            CharSequence []items = new CharSequence[2];
+                                            items[0]="Eliminar";
+                                            items[1]="Cancelar";
+
+                                            alert.setTitle("Seleccione una tarea")
+                                                    .setItems(items, new DialogInterface.OnClickListener() {
+
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int i) {
+                                                            if (i==0) {
+                                                                //Borrar eventos
+                                                                Context context = getActivity();
+                                                                DbHelper db = new DbHelper(context);
+                                                                Events_log evento = new Events_log();
+                                                                evento = db.getEvents(list.get(position));
+                                                                db.deleteEvents(evento);
+
+                                                                //recargar lista
+                                                                mList_event.setAdapter(null);
+                                                                list_ev.clear();
+                                                                list.clear();
+
+                                                                List<Events_log> events_logList = db.getAllEvents();
+                                                                for(Events_log ec : events_logList){
+                                                                    String eve = "\nEvento: "+ec.getEvento()+
+                                                                            "\nFecha: "+ec.getFecha();
+                                                                    list.add(ec);
+                                                                    list_ev.add(eve);
+                                                                }//for
+                                                                ArrayAdapter com = new ArrayAdapter<String>(context,
+                                                                        android.R.layout.simple_list_item_1, list_ev);
+                                                                mList_event.setAdapter(com);
+                                                                Toast.makeText(getActivity(),"Evento eliminado con éxito",Toast.LENGTH_LONG).show();
+                                                            }else {
+                                                                return;
+                                                            }
+                                                        }// OnClick
+                                                    });
+
+                                            AlertDialog dialog = alert.create();
+                                            dialog.show();
+                                        }// OnItemClick
+                                    });
                                 }else {
                                     return;
                                 }

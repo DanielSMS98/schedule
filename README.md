@@ -13,3 +13,7 @@ La base de datos es con sqlit de la misma app esta funciona con una class llamad
 ## Implmentacion de calendar
 
 Modificacion en calendar que permite agregar eventos y asi como mostrar los eventos de cada fecha
+
+## Borra eventos
+
+Eliminar eventos selecionados en los cuales ya esten realizados o descartados.

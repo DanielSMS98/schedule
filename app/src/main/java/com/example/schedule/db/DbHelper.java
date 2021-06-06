@@ -68,8 +68,9 @@ public class DbHelper extends SQLiteOpenHelper {
     }//addEvents
 
    //obtener un evento
-    public Events_log getEvents(int id){
+    public Events_log getEvents(Events_log obj){
         SQLiteDatabase db = this.getReadableDatabase();
+        int id = obj.getId();
         Cursor cursor = db.query(TABLE_EVENTS,
                 new String[] { KEY_ID,
                         KEY_EVENTS, KEY_DATE, KEY_DESCRIPTION},
@@ -83,7 +84,7 @@ public class DbHelper extends SQLiteOpenHelper {
                 cursor.getString(1),
                 cursor.getString(2),
                 cursor.getString(3));
-        //regresar contacto
+        //regresar evento
         return eventsLog;
     } //obtener un contacto
 

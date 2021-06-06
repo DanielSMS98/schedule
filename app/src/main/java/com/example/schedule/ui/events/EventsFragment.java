@@ -75,7 +75,7 @@ public class EventsFragment extends Fragment {
                     evento.setDescripcion(edt_descripcion.getText().toString());
                     db.addEvents(evento);
                     Toast.makeText(getActivity(),"Evento creado",Toast.LENGTH_LONG).show();
-
+                    getActivity().onBackPressed();
                 }//if
                 else {
                     Toast.makeText(getActivity(),"Introduce los datos",Toast.LENGTH_LONG).show();
@@ -90,7 +90,7 @@ public class EventsFragment extends Fragment {
             public void onClick(View v) {
                 //Regresar a fragment home o resumen
                 //getActivity().finish();
-                getActivity().getSupportFragmentManager().popBackStack();
+                getActivity().onBackPressed();
             }
         });
 
