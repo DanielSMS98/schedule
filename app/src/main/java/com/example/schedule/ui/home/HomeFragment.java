@@ -99,7 +99,7 @@ public class HomeFragment<events_logList> extends Fragment {
                                     list.clear();
                                     List<Events_log> events_logList = db.getAllEvents();
                                     for(Events_log ec : events_logList){
-                                        String eve = "Evento: "+ec.getEvento()+"\nFecha: "+ec.getFecha();
+                                        String eve = "\nEvento: "+ec.getEvento()+"\nFecha: "+ec.getFecha();
                                         list.add(ec);
                                         list_ev.add(eve);
                                     }//for

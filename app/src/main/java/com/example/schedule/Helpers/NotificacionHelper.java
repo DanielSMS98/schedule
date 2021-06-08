@@ -5,6 +5,8 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.os.Build;
 
+import androidx.annotation.RequiresApi;
+
 public class NotificacionHelper extends Application {
     public  static final String CANAL_1_ID = "canal1";
     private  static final String CANAL_1_NOMBRE = "Canal 1";
@@ -15,6 +17,7 @@ public class NotificacionHelper extends Application {
         super.onCreate();
         crearCanalesNotificaciones();
     }
+
 
     private void crearCanalesNotificaciones() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
