@@ -1,13 +1,18 @@
 package com.example.schedule.ui.events;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.app.FragmentManager;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -35,6 +40,8 @@ import com.example.schedule.ui.calendar.CalendarFragment;
 import com.example.schedule.ui.calendar.CalendarViewModel;
 import com.example.schedule.ui.home.HomeFragment;
 
+import static com.example.schedule.Helpers.NotificacionHelper.CANAL_1_ID;
+
 public class EventsFragment extends Fragment {
 
     private EventsViewModel eventsViewModel;
@@ -42,6 +49,8 @@ public class EventsFragment extends Fragment {
     private Button btn_agregar,btn_cancelar;
     private GridView gridView;
     public static FragmentManager fragmentManager;
+
+    private NotificationManagerCompat notificationManager;
 
 
     @Override
@@ -56,7 +65,7 @@ public class EventsFragment extends Fragment {
         edt_fecha = root.findViewById(R.id.edt_Fecha);
         btn_agregar = root.findViewById(R.id.btn_agregar);
         btn_cancelar = root.findViewById(R.id.btn_cancelar);
-
+        notificationManager = NotificationManagerCompat.from(getContext());
 
         Context context = getActivity();
         DbHelper db = new DbHelper(context);
@@ -76,6 +85,24 @@ public class EventsFragment extends Fragment {
                     db.addEvents(evento);
                     Toast.makeText(getActivity(),"Evento creado",Toast.LENGTH_LONG).show();
                     getActivity().onBackPressed();
+
+                    //Crea una notificación
+                    String nombre = edt_nombre.getText().toString();
+                    String descripcion = edt_descripcion.getText().toString();
+
+
+                    Notification notification = new NotificationCompat.Builder(
+                            getContext(),
+                            CANAL_1_ID).setSmallIcon(R.drawable.ic_uno)
+                            .setContentTitle(nombre)
+                            .setContentText(descripcion)
+                            .setPriority(NotificationCompat.PRIORITY_HIGH)
+                            .setCategory(NotificationCompat.CATEGORY_MESSAGE)
+                            .setColor(Color.GREEN)
+                            
+                            .build();
+                    notificationManager.notify(1, notification);
+                    //Fin de la notificación
                 }//if
                 else {
                     Toast.makeText(getActivity(),"Introduce los datos",Toast.LENGTH_LONG).show();
@@ -118,6 +145,5 @@ public class EventsFragment extends Fragment {
 
         edt_fecha.setText(dia+"/"+mes+"/"+año);
     }
-
 
 }//class
